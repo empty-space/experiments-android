@@ -1,0 +1,49 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+
+    <style name="ButtonMedium" parent="Widget.AppCompat.Button">
+        <!--make Buttons text smaller -->
+        <item name="android:textSize">12dp</item>
+    </style>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Base.Theme.AppCompat">
+        <item name="buttonStyle">@style/ButtonMedium</item>
+        <item name="android:textAllCaps">false</item>
+
+        <!-- Activity Background -->
+        <!--<item name="android:windowBackground">@color/colorWindow</item>-->
+
+        <!--<item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>-->
+        <!--<item name="android:textColor">@color/colorText</item>
+        <item name="android:textColorPrimary">@color/colorPrimaryText</item>
+        <item name="android:textColorSecondary">@color/colorSecondaryText</item>-->
+    </style>
+
+    <style name="ButtonActivity3" parent="Widget.AppCompat.Button">
+        <!--make Buttons text smaller -->
+        <item name="android:colorBackground">@color/colorDarkGreen</item>
+        <item name="android:textSize">12dp</item>
+    </style>
+    <style name="AppTheme.Activity3Theme">
+        <item name="android:textAllCaps">false</item>
+        <item name="android:windowBackground">@color/colorWhite</item>
+
+    </style>
+
+
+<!--Light Green theme-->
+    <!--<style name="AppTheme" parent="Base.Theme.AppCompat.Light">
+        &lt;!&ndash; Customize your theme here. &ndash;&gt;
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        &lt;!&ndash;<item name="android:textColor">@color/colorText</item>&ndash;&gt;
+        &lt;!&ndash;<item name="android:textColorPrimary">@color/colorPrimaryText</item>&ndash;&gt;
+        &lt;!&ndash;<item name="android:textColorSecondary">@color/colorSecondaryText</item>&ndash;&gt;
+        <item name="android:textSize">12dp</item>
+    </style>-->
+
+
+</resources>

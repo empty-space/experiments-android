@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:padding="6dp"
+    android:orientation="vertical"
+    android:gravity="center"
+    tools:context=".activity2">
+
+        <Button android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Left 50%"
+            android:id="@+id/button1"
+            android:layout_alignParentTop="true"
+            android:layout_toLeftOf="@id/guideline_center"
+            />
+        <View
+            android:id="@+id/guideline_center"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_centerHorizontal="true"/>
+        <Button android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Right 50%"
+            android:id="@+id/button2"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentRight="true"
+            android:layout_toRightOf="@id/guideline_center"
+            />
+
+        <Button android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Center_left"
+            android:id="@+id/button3"
+            android:layout_centerVertical="true"
+            android:layout_toLeftOf="@id/button4"/>
+        <Button android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Center"
+            android:id="@+id/button4"
+            android:layout_centerInParent="true"/>
+        <Button android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Center_Right"
+            android:id="@+id/button5"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@+id/button4"/>
+
+        <Button android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Bottom"
+            android:id="@+id/button6"
+            android:layout_alignParentBottom="true"/>
+
+</RelativeLayout>
