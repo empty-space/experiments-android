@@ -1,0 +1,15 @@
+<resources>
+    <string name="app_name">app4</string>
+    <string name="title_activity_basic">BasicActivity</string>
+
+    <string name="action_add">Add new</string>
+    <string name="action_settings">Settings</string>
+    <string name="action_change_last">Modify last record</string>
+    <string name="action_delete_all">Delete all</string>
+    <string name="action_reset_db">Reset DB</string>\
+
+    <string name="hint_song">Name...</string>
+    <string name="button_save">Save</string>
+    <string name="empty_not_saved">Name is empty!</string>
+
+</resources>
