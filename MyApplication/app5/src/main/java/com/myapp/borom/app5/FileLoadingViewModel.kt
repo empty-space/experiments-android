@@ -11,6 +11,7 @@ import android.app.DownloadManager
 import android.arch.lifecycle.AndroidViewModel
 import android.content.ActivityNotFoundException
 import android.content.Context
+import android.content.Context.*
 import android.net.Uri
 import android.os.Environment
 import android.util.Log
@@ -18,7 +19,6 @@ import java.lang.Exception
 import java.net.HttpURLConnection
 import java.net.URL
 import java.net.URLConnection
-import android.content.Context.MODE_PRIVATE
 import android.content.Intent
 import android.content.res.Resources
 import android.os.AsyncTask
@@ -31,6 +31,7 @@ import java.util.concurrent.TimeUnit
 
 const val DOWNLOAD_FILE_URL = "http://ntv.ifmo.ru/file/article/"
 const val DOWNLOAD_FILE_EXT =".pdf"
+const val DOWNLOADS_FILES_FOLDER = "pdfs"
 
 enum class UIState{
     INVALID_INPUT,
@@ -41,21 +42,16 @@ enum class UIState{
 class FileLoadingViewModel(val app:Application): AndroidViewModel(app){
     val uiState:MutableLiveData<UIState> = MutableLiveData()
     val fileId:MutableLiveData<String> = MutableLiveData()
-    fun getFileName()= fileId.value + DOWNLOAD_FILE_EXT
-    var downloadManager:DownloadManager?=null
-    var fileLocation:String? = ""
     var blockingQueue = LinkedBlockingDeque<Runnable>()
     var executor = ThreadPoolExecutor(1,1,3,TimeUnit.MINUTES,blockingQueue)
 
+    fun getFileName()= fileId.value + DOWNLOAD_FILE_EXT
+    fun getFileAbsolutePath()= app.applicationContext.getExternalFilesDir(DOWNLOADS_FILES_FOLDER).absolutePath + "/" + getFileName()
+
     init{
-        uiState.value = UIState.CAN_DOWNLOAD;
-        fileId.value = ""
         fileId.observeForever( object : Observer<String> {
             override fun onChanged(@Nullable s: String?) {
-                val isValid = !TextUtils.isEmpty(s)
-                        && TextUtils.indexOf(s,' ') < 0
-                        //s?.toBigIntegerOrNull() != null
-                if(!isValid)
+                if(!isValidId(s))
                     uiState.value = UIState.INVALID_INPUT
                 else
                     if(fileExists())
@@ -64,46 +60,41 @@ class FileLoadingViewModel(val app:Application): AndroidViewModel(app){
                         uiState.value = UIState.CAN_DOWNLOAD
             }
         })
-
-
+        fileId.value = ""
     }
 
+    fun isValidId(s:String? = fileId.value):Boolean{
+        return !TextUtils.isEmpty(s)
+                && TextUtils.indexOf(s,' ') < 0
+        //s?.toBigIntegerOrNull() != null
+    }
     fun fileExists():Boolean{
         try {
-            val inp = app.openFileInput(fileId.value + DOWNLOAD_FILE_EXT);
-            return true;
+            return File(getFileAbsolutePath()).exists();
         }catch(e:FileNotFoundException){
             return false
         }
     }
     fun checkDownloaded(){
-        if(fileExists())
+        if(isValidId()&& fileExists())
             uiState.value = UIState.DOWNLOADED
         else {
             uiState.value = UIState.CAN_DOWNLOAD
-            Log.e("MyERROR","DOWNLOADED FILE NOT FOUND")
+            Log.e("MyERROR","DOWNLOADED FILE NOT FOUND ${getFileAbsolutePath()}")
         }
     }
+
     fun download(){
         val task = DownloadFileAsyncTask(this)
         task.executeOnExecutor(executor)
     }
     fun delete(){
-        this.app.deleteFile(getFileName())
-        uiState.value = UIState.CAN_DOWNLOAD
-    }
-    fun open(){
-//        val file = File(app.filesDir.path + getFileName())
-//        var target = Intent(Intent.ACTION_VIEW)
-//        target.setDataAndType(Uri.fromFile(file),"application/pdf");
-//        target.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
-//
-//        val intent = Intent.createChooser(target, "Open File");
-//        try {
-//            app.applicationContext.startActivity(intent);
-//        } catch ( e: ActivityNotFoundException) {
-//            showToast("There is no PDF reader")
-//        }
+        Log.d("TRY DELETE",getFileAbsolutePath())
+        val deleted = File(getFileAbsolutePath()).delete()
+        if(!deleted)
+            showToast("Not deleted")
+        showToast("Deleted succesfully")
+        checkDownloaded()
     }
     fun showToast(message:String){
         Toast.makeText(
@@ -117,8 +108,10 @@ class FileLoadingViewModel(val app:Application): AndroidViewModel(app){
         var noSuchFileOnServer = false
 
         override fun onPreExecute() {
-            if(vm.fileExists())
+            if(vm.fileExists()){
                 this.cancel(true)
+                vm.showToast("Already downloaded ${vm.getFileName()}")
+            }
             else
                 vm.showToast("Downloading ${vm.getFileName()}")
         }
@@ -134,6 +127,8 @@ class FileLoadingViewModel(val app:Application): AndroidViewModel(app){
                 Toast.makeText(vm.app.applicationContext,"No such file on server",Toast.LENGTH_SHORT)
                     .show()
             else {
+                if(vm.fileExists())
+                    vm.showToast("Downloaded")
                 vm.checkDownloaded()
             }
         }
@@ -148,7 +143,8 @@ class FileLoadingViewModel(val app:Application): AndroidViewModel(app){
                     "application/pdf" -> {
                         //DOWNLOAD
                         val inp = BufferedInputStream(httpConnection.inputStream)
-                        val outp:FileOutputStream =  vm.app.openFileOutput(fileName, MODE_PRIVATE)
+                        var outp:FileOutputStream = FileOutputStream(vm.getFileAbsolutePath())
+
 // пишем данные
                         val dataBuffer = ByteArray(1024)
                         var bytesRead: Int = 0
@@ -166,7 +162,7 @@ class FileLoadingViewModel(val app:Application): AndroidViewModel(app){
                 }
             }
             catch (e:Exception){
-                Log.d("EXCEPTION",e.toString())
+                Log.e("Error",e.toString())
             }
         }
     }

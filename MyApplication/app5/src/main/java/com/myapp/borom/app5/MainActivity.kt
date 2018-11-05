@@ -23,6 +23,9 @@ import android.support.v4.content.ContextCompat.getSystemService
 import android.util.Log
 import android.view.inputmethod.InputMethodManager
 import java.io.File
+import android.support.v4.content.FileProvider.getUriForFile
+
+
 
 
 const val EDIT_TEXT_DELAY_MS:Long = 500
@@ -38,7 +41,6 @@ class MainActivity : AppCompatActivity() {
         Log.d("test","oncreatetest")
         //ViewModel
         viewModel = ViewModelProviders.of(this).get(FileLoadingViewModel::class.java)
-        viewModel?.downloadManager = getSystemService(Context.DOWNLOAD_SERVICE) as DownloadManager;
 
         //buttons observation
         viewModel?.uiState?.observe(this, object : Observer<UIState> {
@@ -81,9 +83,11 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    fun backgroundOnClick(v:View)=hideKeyboard(v)
+
     fun hideKeyboard(v:View){
         val inputManager = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-        inputManager.hideSoftInputFromWindow(v.getWindowToken(),0)
+        inputManager.hideSoftInputFromWindow(currentFocus?.getWindowToken(),0)
     }
     fun download(v: View) {
         hideKeyboard(v)
@@ -92,10 +96,13 @@ class MainActivity : AppCompatActivity() {
     fun open(v: View) {
         hideKeyboard(v)
         //viewModel?.open()
-        val file = File(filesDir.path + "/" + viewModel?.getFileName())
+        val file = File(viewModel?.getFileAbsolutePath())
+        Log.d("OPEN",file.absolutePath)
+        val contentUri = getUriForFile(application.applicationContext, "com.myapp.borom.app5.fileprovider", file)
+        Log.d("OPEN URI",contentUri.toString())
         var target = Intent(Intent.ACTION_VIEW)
-        target.setDataAndType(Uri.fromFile(file),"application/pdf");
-        target.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+        target.setDataAndType(contentUri,"application/pdf");
+        target.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
 
         val intent = Intent.createChooser(target, "Open File");
         try {
