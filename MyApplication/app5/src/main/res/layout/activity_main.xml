@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+
+    tools:context=".MainActivity" >
+
+    <!--    <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Hello World!"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />-->
+    <android.support.constraint.Guideline
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/guideline_left"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.125" />
+    <android.support.constraint.Guideline
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/guideline_right"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.875"/>
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        app:layout_constraintLeft_toRightOf="@id/guideline_left"
+        app:layout_constraintRight_toLeftOf="@id/guideline_right"
+        android:orientation="vertical"
+        android:weightSum="1" app:layout_constraintVertical_weight="0.5"
+        android:gravity="top">
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="0.05"
+            />
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/txt_file_id"
+            android:hint="Enter file ID"
+            android:text="18112"
+            />
+
+        <Button android:layout_height="0dp"
+            android:layout_weight="0.2"
+            android:layout_width="match_parent"
+            android:text="Download"
+            android:id="@+id/btn_download"
+            android:onClick="download"/>
+        <Button android:layout_height="0dp"
+            android:layout_weight="0.2"
+            android:layout_width="match_parent"
+            android:text="Open"
+            android:id="@+id/btn_open"
+            android:onClick="open"
+            android:enabled="false"/>
+        <Button android:layout_height="0dp"
+            android:layout_weight="0.2"
+            android:layout_width="match_parent"
+            android:text="Delete"
+            android:id="@+id/btn_delete"
+            android:onClick="delete"
+            android:enabled="false"/>
+    </LinearLayout>
+
+</android.support.constraint.ConstraintLayout>
