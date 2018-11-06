@@ -1,0 +1,29 @@
+<PreferenceScreen
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:title="@string/root_title"
+    android:background="@color/colorAccent">
+
+    <PreferenceCategory>
+        //android:title="@string/inline_preferences">
+        <Preference android:summary="@string/about_app"/>
+        <CheckBoxPreference
+            android:key="dont_show_again"
+            android:title="@string/title_checkbox_preference"
+            android:defaultValue="false"/>
+
+    <!--<CheckBoxPreference-->
+            <!--android:key="checkbox_preference"-->
+            <!--android:title="@string/title_checkbox_preference"-->
+            <!--android:summary="@string/summary_checkbox_preference"-->
+            <!--android:defaultValue="true"/>-->
+        <!--<SwitchPreference-->
+            <!--android:key="switch_preference"-->
+            <!--android:title="Switch preference"-->
+            <!--android:summary="This is a switch" />-->
+
+
+    </PreferenceCategory>
+
+
+
+</PreferenceScreen>
