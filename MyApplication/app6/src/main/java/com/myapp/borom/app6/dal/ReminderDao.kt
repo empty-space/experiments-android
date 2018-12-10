@@ -14,6 +14,9 @@ interface ReminderDao {
     @Query("SELECT * FROM $Reminder_TABLE")
     fun getAll(): LiveData<List<Reminder>>
 
+    @Query("SELECT * FROM $Reminder_TABLE ORDER BY datetime($Reminder_field_dateTime)")
+    fun getAllOrderByDate(): LiveData<List<Reminder>>
+
     //@Insert(onConflict = OnConflictStrategy.REPLACE)
     @Insert
     fun insert(Reminder: Reminder)

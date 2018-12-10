@@ -6,6 +6,10 @@ import android.view.LayoutInflater
 import android.widget.TextView
 import android.support.v7.widget.RecyclerView
 import android.view.View
+import com.myapp.borom.app6.utils.Formatters
+import java.text.DateFormat
+import java.text.SimpleDateFormat
+import java.time.format.DateTimeFormatter
 
 
 internal class ReminderListAdapter internal constructor(context: Context) : RecyclerView.Adapter<ReminderListAdapter.ReminderViewHolder>() {
@@ -39,7 +43,7 @@ internal class ReminderListAdapter internal constructor(context: Context) : Recy
             holder.item=current
             holder.idView.text = current.id.toString()
             holder.nameView.text = current.name
-            holder.dateView.text = current.date
+            holder.dateView.text = Formatters.DateOrEmpty(current.date)
         } else {
             // Covers the case of data not being ready yet.
             holder.idView.text = "NO NAME"

@@ -51,15 +51,15 @@ private class deleteAsyncTask internal constructor(private val mAsyncTaskDao: Re
 private class deleteAndPupulateAsyncTask internal constructor(private val mDao: ReminderDao) : AsyncTask<Void, Void, Void>() {
     override fun doInBackground(vararg params: Void?): Void? {
         mDao.deleteAll()
-        var Reminder = Reminder(name="Vasil")
+        var Reminder = Reminder(name="001")
         mDao.insert(Reminder)
-        Reminder = Reminder(name="Andriy")
+        Reminder = Reminder(name="002")
         mDao.insert(Reminder)
-        Reminder = Reminder(name="Ivan")
+        Reminder = Reminder(name="003")
         mDao.insert(Reminder)
-        Reminder = Reminder(name="Petro")
+        Reminder = Reminder(name="004")
         mDao.insert(Reminder)
-        Reminder = Reminder(name="Nestor")
+        Reminder = Reminder(name="005")
         mDao.insert(Reminder)
         return null
     }

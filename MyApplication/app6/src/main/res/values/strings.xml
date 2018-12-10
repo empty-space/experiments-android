@@ -9,6 +9,9 @@
     <string name="action_reset_db">Reset DB</string>\
 
     <string name="hint_Reminder">Name...</string>
+    <string name="hint_Reminder_date">DD/MM/YYYY</string>
+    <string name="pick_time">Time...</string>
+    <string name="pick_date">Date...</string>
     <string name="button_save">Save</string>
     <string name="empty_not_saved">Name is empty!</string>
 </resources>

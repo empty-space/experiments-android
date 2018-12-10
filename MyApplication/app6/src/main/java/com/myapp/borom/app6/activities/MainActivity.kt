@@ -14,6 +14,7 @@ import android.support.annotation.Nullable
 import android.widget.Toast
 import android.content.Intent
 import android.support.v7.widget.helper.ItemTouchHelper
+import android.view.View
 
 
 val NEW_WORD_ACTIVITY_REQUEST_CODE = 1
@@ -85,18 +86,35 @@ class MainActivity : AppCompatActivity() {
         val intent = Intent(this, NewReminder::class.java);
         startActivityForResult(intent, NEW_WORD_ACTIVITY_REQUEST_CODE);
     }
+    public fun onFloatingButtonClick(v:View){
+       addNew()
+    }
 
     public override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
         if (requestCode == NEW_WORD_ACTIVITY_REQUEST_CODE && resultCode == Activity.RESULT_OK) {
-            val Reminder = Reminder(name = data!!.getStringExtra(EXTRA_REPLY))
-            mReminderViewModel!!.insert(Reminder)
+            try {
+                val r = data!!.getSerializableExtra(EXTRA_REPLY) as Reminder
+                mReminderViewModel!!.insert(r)
+            }  catch (e:Exception){
+                showToast(e.message ?: e.toString())
+            }
+
         } else {
-            Toast.makeText(
-                    applicationContext,
-                    R.string.empty_not_saved,
-                    Toast.LENGTH_LONG).show()
+            showToast(R.string.empty_not_saved)
         }
+    }
+    fun showToast(message:String){
+        Toast.makeText(
+                applicationContext,
+                message,
+                Toast.LENGTH_LONG).show()
+    }
+    fun showToast(resource:Int){
+        Toast.makeText(
+                applicationContext,
+                resource,
+                Toast.LENGTH_LONG).show()
     }
 }
