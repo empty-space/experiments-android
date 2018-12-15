@@ -15,6 +15,7 @@ import android.widget.Toast
 import android.content.Intent
 import android.support.v7.widget.helper.ItemTouchHelper
 import android.view.View
+import com.myapp.borom.app6.utils.AlarmUtil
 
 
 val NEW_WORD_ACTIVITY_REQUEST_CODE = 1
@@ -33,7 +34,7 @@ class MainActivity : AppCompatActivity() {
         recyclerview.layoutManager = LinearLayoutManager(this)
         //observer
         mReminderViewModel = ViewModelProviders.of(this).get(RemindersViewModel::class.java)
-        resetDb()
+        //resetDb()
         mReminderViewModel?.allReminders?.observe(this, object : Observer<List<Reminder>> {
             override fun onChanged(@Nullable Reminders: List<Reminder>?) {
                 // Update the cached copy of the Reminders in the adapter.
@@ -60,7 +61,7 @@ class MainActivity : AppCompatActivity() {
         when (item.itemId) {
             R.id.action_add -> addNew()
             R.id.action_delete_all -> deleteAll()
-            R.id.action_change_last -> changeLastItem()
+            R.id.action_notification -> notification()
             R.id.action_reset_db -> resetDb()
 //            R.id.action_settings -> {}
             else -> {
@@ -76,8 +77,9 @@ class MainActivity : AppCompatActivity() {
         mReminderViewModel?.resetDb()
     }
 
-    private fun changeLastItem(){
-        mReminderViewModel?.modifyLast()
+    private fun notification(){
+        val intent = Intent(this, TestNotificationsActivity::class.java);
+        startActivity(intent)
     }
     private fun deleteAll(){
         mReminderViewModel?.deleteAll()
@@ -97,6 +99,7 @@ class MainActivity : AppCompatActivity() {
             try {
                 val r = data!!.getSerializableExtra(EXTRA_REPLY) as Reminder
                 mReminderViewModel!!.insert(r)
+                AlarmUtil.setAlarm(this,r.date!!,r.name)
             }  catch (e:Exception){
                 showToast(e.message ?: e.toString())
             }

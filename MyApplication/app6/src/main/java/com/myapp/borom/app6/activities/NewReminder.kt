@@ -9,6 +9,7 @@ import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.text.TextUtils
 import android.content.Intent
+import android.text.Editable
 import android.view.MotionEvent
 import android.view.View
 import android.widget.DatePicker
@@ -23,7 +24,6 @@ const val EXTRA_REPLY = "com.example.android.Reminderlistsql.REPLY"
 
 class NewReminder : AppCompatActivity(), DatePickerDialog.OnDateSetListener,TimePickerDialog.OnTimeSetListener {
 
-
     private var mEditReminderView: EditText? = null
     private var mEditDateView: EditText? = null
     private var dateTime: Date = Date().apply { minutes+=1 };
@@ -33,6 +33,7 @@ class NewReminder : AppCompatActivity(), DatePickerDialog.OnDateSetListener,Time
         setContentView(R.layout.activity_new_reminder)
 
         mEditReminderView = findViewById(R.id.edit_Reminder)
+        mEditReminderView?.setText("New reminder")
         mEditDateView = findViewById(R.id.edit_Date)
         updateDateTimeOnView()
 //        mEditDateView!!.setOnTouchListener { v, event ->

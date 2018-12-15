@@ -11,7 +11,7 @@ class ReminderRepository(val application: Application){
     val mAllReminders: LiveData<List<Reminder>>
 
     init{
-        val db = UniversityDatabase.getDatabase(application);
+        val db = AppDatabase.getDatabase(application);
         mReminderDao = db.ReminderDao();
         mAllReminders = mReminderDao.getAll();
     }
@@ -51,16 +51,16 @@ private class deleteAsyncTask internal constructor(private val mAsyncTaskDao: Re
 private class deleteAndPupulateAsyncTask internal constructor(private val mDao: ReminderDao) : AsyncTask<Void, Void, Void>() {
     override fun doInBackground(vararg params: Void?): Void? {
         mDao.deleteAll()
-        var Reminder = Reminder(name="001")
-        mDao.insert(Reminder)
-        Reminder = Reminder(name="002")
-        mDao.insert(Reminder)
-        Reminder = Reminder(name="003")
-        mDao.insert(Reminder)
-        Reminder = Reminder(name="004")
-        mDao.insert(Reminder)
-        Reminder = Reminder(name="005")
-        mDao.insert(Reminder)
+//        var Reminder = Reminder(name="001")
+//        mDao.insert(Reminder)
+//        Reminder = Reminder(name="002")
+//        mDao.insert(Reminder)
+//        Reminder = Reminder(name="003")
+//        mDao.insert(Reminder)
+//        Reminder = Reminder(name="004")
+//        mDao.insert(Reminder)
+//        Reminder = Reminder(name="005")
+//        mDao.insert(Reminder)
         return null
     }
 }

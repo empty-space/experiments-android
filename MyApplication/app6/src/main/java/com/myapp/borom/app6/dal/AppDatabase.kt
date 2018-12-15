@@ -13,7 +13,7 @@ import com.myapp.borom.app6.utils.*
 
 @Database(entities = [Reminder::class], version = 1,exportSchema = false)
 @TypeConverters(Converters::class)
-abstract class UniversityDatabase: RoomDatabase() {
+abstract class AppDatabase: RoomDatabase() {
     abstract fun ReminderDao(): ReminderDao
 
     companion object {
@@ -23,15 +23,15 @@ abstract class UniversityDatabase: RoomDatabase() {
         /**
          * This is just for singleton pattern
          */
-        private var INSTANCE: UniversityDatabase? = null
+        private var INSTANCE: AppDatabase? = null
 
-        fun getDatabase(context: Context): UniversityDatabase {
+        fun getDatabase(context: Context): AppDatabase {
             if (INSTANCE == null) {
-                synchronized(UniversityDatabase::class.java) {
+                synchronized(AppDatabase::class.java) {
                     if (INSTANCE == null) {
                         // Get PhraseRoomDatabase database instance
                         INSTANCE = Room.databaseBuilder(context.applicationContext,
-                                UniversityDatabase::class.java, "University_database"
+                                AppDatabase::class.java, "University_database"
                                 )
                                 .allowMainThreadQueries()
                                 .fallbackToDestructiveMigration()
